@@ -22,7 +22,7 @@ app.post("/upload", async (req, res) => {
   res.send("successfully stored event !!" + "\n");
 });
 
-app.post("/kind", async (req, res) => {
+app.get("/kind", async (req, res) => {
   const product_list = await Product.find({});
 
   var send_product_list = [];
