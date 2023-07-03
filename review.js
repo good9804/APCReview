@@ -4,6 +4,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const port = 4001;
 const Review = require("./models/review");
+const Product = require("./models/product");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -19,6 +20,16 @@ app.post("/upload", async (req, res) => {
   //DB 연결 후 리뷰 저장
   await new_review.save();
   res.send("successfully stored event !!" + "\n");
+});
+
+app.post("/kind", async (req, res) => {
+  const product_list = await Product.find({});
+
+  var send_product_list = [];
+  product_list.forEach((element, index) => {
+    send_product_list[index].element[product_item] = element[product_detail];
+  });
+  res.json({ product_list: send_product_list, message: "success" });
 });
 
 mongoose
