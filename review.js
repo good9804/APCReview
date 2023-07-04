@@ -22,13 +22,18 @@ app.post("/upload", async (req, res) => {
   res.send("successfully stored event !!" + "\n");
 });
 
-app.post("/kind", async (req, res) => {
+app.get("/kind", async (req, res) => {
   const product_list = await Product.find({});
 
   var send_product_list = [];
-  product_list.forEach((element, index) => {
-    send_product_list[index].element[product_item] = element[product_detail];
+  product_list.forEach((element) => {
+    console.log(element);
+    send_product_list.push({
+      product_item: element.product_item,
+      product_detail: element.product_detail,
+    });
   });
+
   res.json({ product_list: send_product_list, message: "success" });
 });
 
