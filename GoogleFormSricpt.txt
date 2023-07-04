@@ -1,0 +1,71 @@
+//appsscript.json 파일
+{
+  "timeZone": "Asia/Seoul",
+  "dependencies": {
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/forms",
+    "https://www.googleapis.com/auth/spreadsheets"
+  ]
+}
+
+//Code.gs
+function submit(e) {
+    // 응답을 results 배열에 넣음
+  const items = e.response.getItemResponses()
+  const results = items.map((item) => {
+    return {
+      id: item.getItem().getId(),
+      type: item.getItem().getType(),
+      title: item.getItem().getTitle(),
+      response: item.getResponse(),
+    }
+  })
+ 
+  UrlFetchApp.fetch(`https://0fcb-118-36-223-138.ngrok-free.app/reviewupload`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    payload: JSON.stringify({
+      form_id: e.source.getId(),
+      form_title: e.source.getTitle(),
+      results: results, //응답 결과
+    })
+  })
+}
+
+
+
+function set() {
+  var response = UrlFetchApp.fetch(`https://0fcb-118-36-223-138.ngrok-free.app/reviewview`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': true,
+    }
+    });
+    
+  var statusCode = response.getResponseCode();
+  var content = response.getContentText();
+  content = JSON.parse(content);
+  // Process the response data
+  if (statusCode == 200) {
+    // Success
+    // Process the data as needed
+    var form = FormApp.openById('1suAXjyo_EfUYQJ3DZ6bwc9-JMxuvTyohBIcxbi7Ixf4');
+    var items = form.getItems();
+    var item_list = []
+    for(var i = 0; i < content.product_list.length; i ++){
+      item_list.push(content.product_list[i].product_item + " : " + content.product_list[i].product_detail);
+    }
+    console.log(items[3].asMultipleChoiceItem().setChoiceValues(item_list).showOtherOption(true)); // 4번째 질문의 선택지를 업데이트 하는 코드
+    console.log(item_list);
+  } else {
+    // Error
+    Logger.log("Error: " + statusCode + " - " + content);
+  }
+}
