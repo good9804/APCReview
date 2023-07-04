@@ -25,7 +25,7 @@ function submit(e) {
     }
   })
  
-  UrlFetchApp.fetch(`https://0fcb-118-36-223-138.ngrok-free.app/reviewupload`, {
+  UrlFetchApp.fetch(`https://068e-118-36-223-138.ngrok-free.app/reviewupload`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function submit(e) {
 
 
 function set() {
-  var response = UrlFetchApp.fetch(`https://0fcb-118-36-223-138.ngrok-free.app/reviewview`, {
+  var response = UrlFetchApp.fetch(`https://068e-118-36-223-138.ngrok-free.app/reviewview`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function set() {
   if (statusCode == 200) {
     // Success
     // Process the data as needed
-    var form = FormApp.openById('1suAXjyo_EfUYQJ3DZ6bwc9-JMxuvTyohBIcxbi7Ixf4');
+    var form = FormApp.openById('19jMgtVqknlf-dhN-6XDdDky2l8ZHuBdJM8LF4H8f9JY');
     var items = form.getItems();
     var item_list = []
     for(var i = 0; i < content.product_list.length; i ++){
