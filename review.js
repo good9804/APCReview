@@ -11,9 +11,7 @@ require("dotenv").config();
 app.post("/upload", async (req, res) => {
   new_review = new Review({
     review_id: req.body.results[2].response,
-    review_name: req.body.results[3].response,
-    review_item: req.body.results[4].response,
-    review_product: req.body.results[5].response,
+    review_item: req.body.results[3].response,
     review_reaction: req.body.results[6].response,
     others: req.body.results[7].response,
   });
